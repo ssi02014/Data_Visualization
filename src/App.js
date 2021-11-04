@@ -1,5 +1,6 @@
 import { breakList } from "prelude-ls";
 import React, { useEffect, useState } from "react";
+import Header from "./components/Header";
 import "./App.css";
 
 function App() {
@@ -8,7 +9,7 @@ function App() {
   const [sortValue, setSortValue] = useState([]);
   const [sortType, setSortType] = useState("bubble");
   const [cursor, setCurosor] = useState(1);
-  const [intervalTime, setIntervalTime] = useState(300);
+  const [intervalTime, setIntervalTime] = useState(100);
   const [length, setLength] = useState(50);
 
   const createNumberList = () => {
@@ -63,6 +64,58 @@ function App() {
     }
   }
 
+  function* quickSort(a, l, r) {
+    // a: array to sort, k: key to sort by,
+    // l, r: optional array index array range
+
+    // i: stack index, s: stack,
+    // p: pivot index, v: pivot value,
+    // t: temporary array item,
+    // x, y: partion low/high
+
+    var i, s, p, v, t, x, y;
+
+    l = l || 0;
+    r = r || a.length - 1;
+
+    i = 2;
+    s = [l, r];
+
+    while (i > 0) {
+      r = s[--i];
+      l = s[--i];
+
+      if (l < r) {
+        // partition
+
+        x = l;
+        y = r - 1;
+
+        p = l;
+        v = a[p];
+        a[p] = a[r];
+
+        while (true) {
+          while (x <= y && a[x] != undefined && a[x] < v) x++;
+          while (x <= y && a[y] != undefined && a[y] >= v) y--;
+          if (x > y) break;
+
+          yield onSwap(a, x, y);
+        }
+
+        a[r] = a[x];
+        a[x] = v;
+
+        s[i++] = l;
+        s[i++] = x - 1;
+        s[i++] = x + 1;
+        s[i++] = r;
+
+        yield a;
+      }
+    }
+  }
+
   function* insertionSort(arr) {
     let length = arr.length;
 
@@ -83,7 +136,8 @@ function App() {
 
     switch (sortType) {
       case "bubble":
-        iter = bubbleSort(value);
+        // iter = bubbleSort(value);
+        iter = quickSort(value);
         break;
       case "selection":
         iter = selectionSort();
@@ -110,39 +164,31 @@ function App() {
     setSortType(e.target.value);
   };
 
+  const onInit = () => {
+    const initList = createNumberList();
+    setValue(initList);
+    setSortValue(initList);
+  };
+
   return (
     <div className="App">
       <div
         className="content"
-        style={{ display: "flex", flexDirection: "column" }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
       >
-        <div>
-          <select name="sort-select" id="sort-select" onChange={sortSelect}>
-            <option value="bubble">버블 정렬</option>
-            <option value="selection">선택 정렬</option>
-            <option value="insertion">삽입 정렬</option>
-          </select>
-          <input
-            type="text"
-            value={intervalTime}
-            onChange={(e) => setIntervalTime(+e.target.value)}
-          />
-          <input
-            type="text"
-            value={length}
-            onChange={(e) => setLength(+e.target.value)}
-          />
-          <button
-            onClick={() => {
-              const initList = createNumberList();
-              setValue(initList);
-              setSortValue(initList);
-            }}
-          >
-            배열 생성
-          </button>
-          <button onClick={iterator}>정렬</button>
-        </div>
+        <Header
+          length={length}
+          intervalTime={intervalTime}
+          onInit={onInit}
+          iterator={iterator}
+          sortSelect={sortSelect}
+          changeIntervalTime={(e) => setIntervalTime(+e.target.value)}
+          changeLength={(e) => setLength(+e.target.value)}
+        />
 
         <div>
           {sortValue &&
@@ -150,7 +196,12 @@ function App() {
               return (
                 <p
                   key={idx}
-                  style={{ display: "inline-block", margin: "0 2px" }}
+                  style={{
+                    display: "inline-block",
+                    fontSize: "12px",
+                    width: "20px",
+                    height: "20px",
+                  }}
                 >
                   {el}
                 </p>
@@ -170,8 +221,9 @@ function App() {
                       style={{
                         width: "12px",
                         height: "12px",
-                        backgroundColor: "red",
-                        transform: "scale(1.3)",
+                        backgroundColor: "rgba(244, 0, 0, 0.3)",
+                        opacity: 0.3,
+                        // transform: "scale(1.3)",
                       }}
                     >
                       {""}
@@ -191,35 +243,37 @@ function App() {
                     </div>
                   );
                 }
-              } else if (basicValue.indexOf(el) === sortValue.indexOf(el)) {
-                if (i < el) {
-                  col.push(
-                    <div
-                      className="col"
-                      style={{
-                        width: "12px",
-                        height: "12px",
-                        backgroundColor: "yellow",
-                      }}
-                    >
-                      {" "}
-                    </div>
-                  );
-                } else {
-                  col.push(
-                    <div
-                      className="col"
-                      style={{
-                        width: "12px",
-                        height: "12px",
-                        backgroundColor: "gray",
-                      }}
-                    >
-                      {" "}
-                    </div>
-                  );
-                }
-              } else {
+              }
+              // else if (basicValue.indexOf(el) === sortValue.indexOf(el)) {
+              //   if (i < el) {
+              //     col.push(
+              //       <div
+              //         className="col"
+              //         style={{
+              //           width: "12px",
+              //           height: "12px",
+              //           backgroundColor: "yellow",
+              //         }}
+              //       >
+              //         {" "}
+              //       </div>
+              //     );
+              //   } else {
+              //     col.push(
+              //       <div
+              //         className="col"
+              //         style={{
+              //           width: "12px",
+              //           height: "12px",
+              //           backgroundColor: "gray",
+              //         }}
+              //       >
+              //         {" "}
+              //       </div>
+              //     );
+              //   }
+              // }
+              else {
                 if (i < el) {
                   col.push(
                     <div
@@ -251,7 +305,7 @@ function App() {
             }
             return (
               <div className="row" style={{ display: "inline-block" }}>
-                {col.map((el) => el)}
+                {col.reverse().map((el) => el)}
               </div>
             );
           })}
