@@ -8,16 +8,17 @@ import {
 
 const Header = ({
   length,
-  sortSelect,
+  onSelect,
   intervalTime,
   changeIntervalTime,
   changeLength,
   onInit,
+  onCancel,
   iterator,
 }) => {
   return (
     <HeaderContainer>
-      <StyledSelect name="sort-select" id="sort-select" onChange={sortSelect}>
+      <StyledSelect name="sort-select" id="sort-select" onChange={onSelect}>
         <option value="bubble">버블 정렬</option>
         <option value="selection">선택 정렬</option>
         <option value="insertion">삽입 정렬</option>
@@ -31,6 +32,7 @@ const Header = ({
       <StyledInput type="text" value={length} onChange={changeLength} />
       <StyledButton onClick={onInit}>배열 생성</StyledButton>
       <StyledButton onClick={iterator}>정렬</StyledButton>
+      <StyledButton onClick={onCancel}>종료</StyledButton>
     </HeaderContainer>
   );
 };

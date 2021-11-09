@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useMemo, useCallback } from "react";
 import Header from "./components/Header";
 import Visualization from "./components/Visualization";
 import { createNumberList } from "./utill/common";
@@ -15,35 +15,35 @@ function App() {
   const [sortValue, setSortValue] = useState([]);
   const [sortType, setSortType] = useState("bubble");
   const [cursor, setCurosor] = useState(null);
+  const [isComplete, setIsComplete] = useState(false);
   const [intervalTime, setIntervalTime] = useState(100);
-  const [length, setLength] = useState(50);
+  const [length, setLength] = useState(30);
+
+  const cancelRef = useRef(false);
+
+  const checkType = useCallback(() => {
+    if (sortType === "bubble") return bubbleSort(value, setCurosor);
+    else if (sortType === "selection") return selectionSort(value, setCurosor);
+    else if (sortType === "insertion") return insertionSort(value, setCurosor);
+    else if (sortType === "quick") return quickSort(value, setCurosor);
+  }, [sortType, value]);
 
   const iterator = (e) => {
     e.preventDefault();
 
-    let iter;
-
-    switch (sortType) {
-      case "bubble":
-        iter = bubbleSort(value, setCurosor);
-        break;
-      case "selection":
-        iter = selectionSort(value, setCurosor);
-        break;
-      case "insertion":
-        iter = insertionSort(value, setCurosor);
-        break;
-      case "quick":
-        iter = quickSort(value, setCurosor);
-        break;
-      default:
-        iter = bubbleSort(value, setCurosor);
-    }
+    let iter = checkType();
+    cancelRef.current = false;
 
     const interval = setInterval(() => {
       const { value } = iter.next();
+
+      if (cancelRef.current) {
+        clearInterval(interval);
+      }
+
       if (!value) {
         setCurosor(null);
+        setIsComplete(true);
         clearInterval(interval);
       } else {
         const item = [...value];
@@ -52,12 +52,15 @@ function App() {
     }, intervalTime);
   };
 
-  const sortSelect = (e) => {
+  const onSelect = (e) => {
     setSortType(e.target.value);
   };
 
   const onInit = () => {
     const initList = createNumberList(length);
+    cancelRef.current = false;
+    setCurosor(null);
+    setIsComplete(false);
     setValue(initList);
     setSortValue(initList);
   };
@@ -77,14 +80,19 @@ function App() {
           intervalTime={intervalTime}
           onInit={onInit}
           iterator={iterator}
-          sortSelect={sortSelect}
+          onSelect={onSelect}
+          onCancel={() => {
+            cancelRef.current = true;
+          }}
           changeIntervalTime={(e) => setIntervalTime(+e.target.value)}
           changeLength={(e) => setLength(+e.target.value)}
         />
 
-        <div>
-          <Visualization sortValue={sortValue} cursor={cursor} />
-        </div>
+        <Visualization
+          isComplete={isComplete}
+          sortValue={sortValue}
+          cursor={cursor}
+        />
       </div>
     </div>
   );

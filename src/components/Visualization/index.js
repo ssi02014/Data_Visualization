@@ -1,12 +1,12 @@
 import React from "react";
-import { StyledColumn, StyledRow } from "./style";
+import { StyledColumn, StyledRow, Container } from "./style";
 
-const Visualization = ({ sortValue, cursor }) => {
+const Visualization = ({ isComplete, sortValue, cursor }) => {
   return (
-    <>
+    <Container>
       {sortValue &&
         sortValue.map((el, idx) => {
-          let col = [];
+          const col = [];
 
           for (let i = 0; i < sortValue.length; i++) {
             if (cursor === el) {
@@ -17,15 +17,22 @@ const Visualization = ({ sortValue, cursor }) => {
               }
             } else {
               if (i < el) {
-                col.push(<StyledColumn key={i} className="value" />);
+                col.push(
+                  <StyledColumn
+                    key={i}
+                    className={isComplete ? "complete" : "value"}
+                  />
+                );
               } else {
                 col.push(<StyledColumn key={i} className="not-value" />);
               }
             }
           }
-          return <StyledRow>{col.reverse().map((el) => el)}</StyledRow>;
+          return (
+            <StyledRow key={idx}>{col.reverse().map((el) => el)}</StyledRow>
+          );
         })}
-    </>
+    </Container>
   );
 };
 

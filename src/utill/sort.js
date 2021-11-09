@@ -33,14 +33,15 @@ export function* bubbleSort(array, setCurosor) {
   return array;
 }
 
-export function* insertionSort(arr, setCurosor) {
-  let length = arr.length;
+export function* insertionSort(array, setCurosor) {
+  let length = array.length;
 
   for (let i = 1; i < length; i++) {
     let index = i;
 
-    while (arr[index] !== undefined && arr[index - 1] > arr[index]) {
-      yield onSwap(arr, index, index - 1);
+    while (array[index] !== undefined && array[index - 1] > array[index]) {
+      setCurosor(array[index]);
+      yield onSwap(array, index, index - 1);
       index--;
     }
   }
