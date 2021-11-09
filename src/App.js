@@ -5,10 +5,9 @@ import "./App.css";
 
 function App() {
   const [value, setValue] = useState([]);
-  const [basicValue, setBasicValue] = useState([]);
   const [sortValue, setSortValue] = useState([]);
   const [sortType, setSortType] = useState("bubble");
-  const [cursor, setCurosor] = useState(1);
+  const [cursor, setCurosor] = useState(null);
   const [intervalTime, setIntervalTime] = useState(100);
   const [length, setLength] = useState(50);
 
@@ -25,7 +24,6 @@ function App() {
       if (!randomList.includes(randomNum)) randomList.push(randomNum);
     }
 
-    setBasicValue(basicList);
     return randomList;
   };
 
@@ -65,29 +63,21 @@ function App() {
   }
 
   function* quickSort(a, l, r) {
-    // a: array to sort, k: key to sort by,
-    // l, r: optional array index array range
-
-    // i: stack index, s: stack,
-    // p: pivot index, v: pivot value,
-    // t: temporary array item,
-    // x, y: partion low/high
-
-    var i, s, p, v, t, x, y;
+    let i = 2;
+    let s = [l, r];
+    let x = 0;
+    let y = 0;
+    let p = 0;
+    let v = 0;
 
     l = l || 0;
     r = r || a.length - 1;
-
-    i = 2;
-    s = [l, r];
 
     while (i > 0) {
       r = s[--i];
       l = s[--i];
 
       if (l < r) {
-        // partition
-
         x = l;
         y = r - 1;
 
@@ -96,8 +86,8 @@ function App() {
         a[p] = a[r];
 
         while (true) {
-          while (x <= y && a[x] != undefined && a[x] < v) x++;
-          while (x <= y && a[y] != undefined && a[y] >= v) y--;
+          while (x <= y && a[x] !== undefined && a[x] < v) x++;
+          while (x <= y && a[y] !== undefined && a[y] >= v) y--;
           if (x > y) break;
 
           yield onSwap(a, x, y);
@@ -136,14 +126,16 @@ function App() {
 
     switch (sortType) {
       case "bubble":
-        // iter = bubbleSort(value);
-        iter = quickSort(value);
+        iter = bubbleSort(value);
         break;
       case "selection":
         iter = selectionSort();
         break;
       case "insertion":
         iter = insertionSort(value);
+        break;
+      case "quick":
+        iter = quickSort(value);
         break;
       default:
         iter = bubbleSort(value);
@@ -152,6 +144,7 @@ function App() {
     const interval = setInterval(() => {
       const { value } = iter.next();
       if (!value) {
+        setCurosor(null);
         clearInterval(interval);
       } else {
         const item = [...value];
@@ -223,7 +216,6 @@ function App() {
                         height: "12px",
                         backgroundColor: "rgba(244, 0, 0, 0.3)",
                         opacity: 0.3,
-                        // transform: "scale(1.3)",
                       }}
                     >
                       {""}
@@ -243,37 +235,7 @@ function App() {
                     </div>
                   );
                 }
-              }
-              // else if (basicValue.indexOf(el) === sortValue.indexOf(el)) {
-              //   if (i < el) {
-              //     col.push(
-              //       <div
-              //         className="col"
-              //         style={{
-              //           width: "12px",
-              //           height: "12px",
-              //           backgroundColor: "yellow",
-              //         }}
-              //       >
-              //         {" "}
-              //       </div>
-              //     );
-              //   } else {
-              //     col.push(
-              //       <div
-              //         className="col"
-              //         style={{
-              //           width: "12px",
-              //           height: "12px",
-              //           backgroundColor: "gray",
-              //         }}
-              //       >
-              //         {" "}
-              //       </div>
-              //     );
-              //   }
-              // }
-              else {
+              } else {
                 if (i < el) {
                   col.push(
                     <div

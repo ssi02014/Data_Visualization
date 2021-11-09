@@ -21,6 +21,7 @@ const Header = ({
         <option value="bubble">버블 정렬</option>
         <option value="selection">선택 정렬</option>
         <option value="insertion">삽입 정렬</option>
+        <option value="quick">퀵 정렬</option>
       </StyledSelect>
       <StyledInput
         type="text"

@@ -1,5 +1,5 @@
 import React from "react";
-import { Column } from "./";
+import { Column } from "./Column";
 
 const Visualization = ({ sortValue, cursor }) => {
   return (
