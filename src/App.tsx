@@ -35,8 +35,9 @@ function App() {
     e.preventDefault();
 
     const iter = checkType();
-    setProgress(true);
     cancelRef.current = false;
+
+    setProgress(true);
 
     const interval = setInterval(() => {
       const { value } = iter.next();
@@ -61,6 +62,11 @@ function App() {
     setSortType(e.target.value);
   };
 
+  const onCancel = useCallback(() => {
+    setProgress(false);
+    cancelRef.current = true;
+  }, []);
+
   const onInit = useCallback(() => {
     const initList = createNumberList(length);
 
@@ -74,11 +80,6 @@ function App() {
       setSortValue(initList);
     }
   }, [length, progress]);
-
-  const onCancel = useCallback(() => {
-    setProgress(false);
-    cancelRef.current = true;
-  }, []);
 
   return (
     <div className={style.container}>

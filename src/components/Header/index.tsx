@@ -59,12 +59,11 @@ const Header = ({
       </ColumnContainer>
 
       <StyledButton onClick={onInit}>배열 초기화</StyledButton>
+      
       {progress ? (
         <StyledButton onClick={onCancel}>정지</StyledButton>
       ) : (
-        <StyledButton onClick={iterator}>
-          {isCancel ? "재시작" : "정렬"}
-        </StyledButton>
+        <StyledButton onClick={iterator}>{isCancel ? "재시작" : "정렬"}</StyledButton>
       )}
     </HeaderContainer>
   );
