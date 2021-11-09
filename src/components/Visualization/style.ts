@@ -1,12 +1,11 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-  margin-bottom: 200px;
 `;
 
 export const StyledColumn = styled.div`
-  width: 18px;
-  height: 18px;
+  width: 15px;
+  height: 15px;
 
   &.current {
     border: 1px solid #111;

@@ -8,6 +8,7 @@ import {
   insertionSort,
   quickSort,
 } from "./utill/sort";
+
 import "./App.css";
 import style from './App.module.css';
 
@@ -19,6 +20,7 @@ function App() {
   const [isComplete, setIsComplete] = useState(false);
   const [intervalTime, setIntervalTime] = useState(100);
   const [length, setLength] = useState(30);
+  const [progress, setProgress] = useState(false);
 
   const cancelRef = useRef(false);
 
@@ -29,10 +31,11 @@ function App() {
     else if (sortType === "quick") return quickSort(value, setCurosor);
   }, [sortType, value]);
 
-  const iterator = (e) => {
+  const iterator = useCallback((e) => {
     e.preventDefault();
 
-    let iter = checkType();
+    const iter = checkType();
+    setProgress(true);
     cancelRef.current = false;
 
     const interval = setInterval(() => {
@@ -43,6 +46,7 @@ function App() {
       }
 
       if (!value) {
+        setProgress(false);
         setCurosor(null);
         setIsComplete(true);
         clearInterval(interval);
@@ -51,41 +55,49 @@ function App() {
         setSortValue(item);
       }
     }, intervalTime);
-  };
+  }, [value]);
 
   const onSelect = (e) => {
     setSortType(e.target.value);
   };
 
-  const onInit = () => {
+  const onInit = useCallback(() => {
     const initList = createNumberList(length);
-    cancelRef.current = false;
-    setCurosor(null);
-    setIsComplete(false);
-    setValue(initList);
-    setSortValue(initList);
-  };
+
+    if (progress) {
+      alert("정렬중에는 배열 초기화가 불가능합니다.");
+    } else {
+      cancelRef.current = false;
+      setCurosor(null);
+      setIsComplete(false);
+      setValue(initList);
+      setSortValue(initList);
+    }
+  }, [length, progress]);
+
+  const onCancel = useCallback(() => {
+    setProgress(false);
+    cancelRef.current = true;
+  }, []);
 
   return (
-    <div className={style.content}>
-      <Header
-        length={length}
-        intervalTime={intervalTime}
-        isCancel={cancelRef.current}
-        onInit={onInit}
-        onSelect={onSelect}
-        iterator={iterator}
-        onCancel={() => {
-          cancelRef.current = true;
-        }}
-        changeIntervalTime={(e) => setIntervalTime(+e.target.value)}
-        changeLength={(e) => setLength(+e.target.value)}
-      />
-
+    <div className={style.container}>
       <Visualization
         isComplete={isComplete}
         sortValue={sortValue}
         cursor={cursor}
+      />
+      <Header
+        length={length}
+        intervalTime={intervalTime}
+        isCancel={cancelRef.current}
+        progress={progress}
+        onInit={onInit}
+        onSelect={onSelect}
+        iterator={iterator}
+        onCancel={onCancel}
+        changeIntervalTime={(e) => setIntervalTime(+e.target.value)}
+        changeLength={(e) => setLength(+e.target.value)}
       />
     </div>
   );
