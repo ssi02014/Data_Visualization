@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useCallback } from "react";
+import React, { useState, useRef, useCallback } from "react";
 import Header from "./components/Header";
 import Visualization from "./components/Visualization";
 import { createNumberList } from "./utill/common";
@@ -9,15 +9,16 @@ import {
   quickSort,
 } from "./utill/sort";
 import "./App.css";
+import style from "./App.module.css";
 
 function App() {
   const [value, setValue] = useState([]);
-  const [sortValue, setSortValue] = useState([]);
   const [sortType, setSortType] = useState("bubble");
   const [cursor, setCurosor] = useState(null);
   const [isComplete, setIsComplete] = useState(false);
   const [intervalTime, setIntervalTime] = useState(100);
   const [length, setLength] = useState(30);
+  const [sortValue, setSortValue] = useState([]);
 
   const cancelRef = useRef(false);
 
@@ -66,34 +67,26 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <div
-        className="content"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column",
+    <div className={style.content}>
+      <Header
+        length={length}
+        intervalTime={intervalTime}
+        isCancel={cancelRef.current}
+        onInit={onInit}
+        onSelect={onSelect}
+        iterator={iterator}
+        onCancel={() => {
+          cancelRef.current = true;
         }}
-      >
-        <Header
-          length={length}
-          intervalTime={intervalTime}
-          onInit={onInit}
-          iterator={iterator}
-          onSelect={onSelect}
-          onCancel={() => {
-            cancelRef.current = true;
-          }}
-          changeIntervalTime={(e) => setIntervalTime(+e.target.value)}
-          changeLength={(e) => setLength(+e.target.value)}
-        />
+        changeIntervalTime={(e) => setIntervalTime(+e.target.value)}
+        changeLength={(e) => setLength(+e.target.value)}
+      />
 
-        <Visualization
-          isComplete={isComplete}
-          sortValue={sortValue}
-          cursor={cursor}
-        />
-      </div>
+      <Visualization
+        isComplete={isComplete}
+        sortValue={sortValue}
+        cursor={cursor}
+      />
     </div>
   );
 }

@@ -8,6 +8,7 @@ import {
 
 const Header = ({
   length,
+  isCancel,
   onSelect,
   intervalTime,
   changeIntervalTime,
@@ -31,8 +32,10 @@ const Header = ({
       />
       <StyledInput type="text" value={length} onChange={changeLength} />
       <StyledButton onClick={onInit}>배열 생성</StyledButton>
-      <StyledButton onClick={iterator}>정렬</StyledButton>
-      <StyledButton onClick={onCancel}>종료</StyledButton>
+      <StyledButton onClick={iterator}>
+        {isCancel ? "재시작" : "정렬"}
+      </StyledButton>
+      <StyledButton onClick={onCancel}>정지</StyledButton>
     </HeaderContainer>
   );
 };
