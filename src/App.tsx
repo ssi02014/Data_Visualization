@@ -9,16 +9,16 @@ import {
   quickSort,
 } from "./utill/sort";
 import "./App.css";
-import style from "./App.module.css";
+import style from './App.module.css';
 
 function App() {
   const [value, setValue] = useState([]);
+  const [sortValue, setSortValue] = useState([]);
   const [sortType, setSortType] = useState("bubble");
   const [cursor, setCurosor] = useState(null);
   const [isComplete, setIsComplete] = useState(false);
   const [intervalTime, setIntervalTime] = useState(100);
   const [length, setLength] = useState(30);
-  const [sortValue, setSortValue] = useState([]);
 
   const cancelRef = useRef(false);
 
