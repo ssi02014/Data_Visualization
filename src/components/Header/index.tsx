@@ -6,17 +6,28 @@ import {
   StyledButton,
 } from "./style";
 
+interface Props {
+  length: number;
+  isCancel: boolean;
+  intervalTime: number;
+  onSelect: (e: any) => void;
+  changeIntervalTime: (e: any) => void;
+  changeLength: (e: any) => void;
+  onInit: (e: any) => void;
+  onCancel: (e: any) => void;
+  iterator: (e: any) => void;
+}
 const Header = ({
   length,
   isCancel,
-  onSelect,
   intervalTime,
+  onSelect,
   changeIntervalTime,
   changeLength,
   onInit,
   onCancel,
   iterator,
-}) => {
+}: Props) => {
   return (
     <HeaderContainer>
       <StyledSelect name="sort-select" id="sort-select" onChange={onSelect}>

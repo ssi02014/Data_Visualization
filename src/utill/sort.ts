@@ -1,11 +1,11 @@
-const onSwap = (arr, x, y) => {
-  const swap = arr[x];
-  arr[x] = arr[y];
-  arr[y] = swap;
-  return arr;
+const onSwap = (array: number[], x: number, y: number):number[] => {
+  const swap = array[x];
+  array[x] = array[y];
+  array[y] = swap;
+  return array;
 };
 
-export function* selectionSort(array, setCurosor) {
+export function* selectionSort(array: number[], setCurosor: (cursor: number) => void) {
   let minIndex = 0;
 
   for (let i = 0; i < array.length - 1; i++) {
@@ -21,7 +21,7 @@ export function* selectionSort(array, setCurosor) {
   }
 }
 
-export function* bubbleSort(array, setCurosor) {
+export function* bubbleSort(array: number[], setCurosor: (cursor: number) => void) {
   for (let i = 0; i < array.length; i++) {
     for (let j = 0; j < array.length - 1 - i; j++) {
       if (array[j] > array[j + 1]) {
@@ -30,10 +30,9 @@ export function* bubbleSort(array, setCurosor) {
       }
     }
   }
-  return array;
 }
 
-export function* insertionSort(array, setCurosor) {
+export function* insertionSort(array: number[], setCurosor: (cursor: number) => void) {
   let length = array.length;
 
   for (let i = 1; i < length; i++) {
@@ -47,7 +46,7 @@ export function* insertionSort(array, setCurosor) {
   }
 }
 
-export function* quickSort(a, setCurosor, l, r) {
+export function* quickSort(a: number[], setCurosor: (cursor: number) => void, l?: number, r?: number) {
   var i, s, p, v, x, y;
 
   l = l || 0;

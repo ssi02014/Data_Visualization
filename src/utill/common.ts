@@ -1,4 +1,4 @@
-export const createNumberList = (length) => {
+export const createNumberList = (length: number): number[] => {
   const randomList = [];
   const basicList = [];
 
