@@ -5,6 +5,12 @@ const onSwap = (array: number[], x: number, y: number):number[] => {
   return array;
 };
 
+const onQuickSwap = (array: number[], x: number, y: number, v: number):number[] => {
+  array[y] = array[x];
+  array[x] = v;
+  return array
+}
+
 export function* selectionSort(array: number[], setCurosor: (cursor: number) => void) {
   let minIndex = 0;
 
@@ -76,10 +82,8 @@ export function* quickSort(a: number[], setCurosor: (cursor: number) => void, l?
         yield onSwap(a, x, y);
       }
 
-      a[r] = a[x];
-      a[x] = v;
-
-      yield a;
+      setCurosor(a[x]);
+      yield onQuickSwap(a, x, r, v);
 
       s[i++] = l;
       s[i++] = x - 1;
