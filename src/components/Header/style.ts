@@ -9,25 +9,33 @@ export const HeaderContainer = styled.div`
 `;
 
 export const StyledSelect = styled.select`
-  min-width: 120px;
+  min-width: 150px;
   font-size: 16px;
-  padding: 5px;
+  padding: 10px;
+  border: 1px solid #62BD69;
+  outline: none;
 `;
 
 export const StyledInput = styled.input`
-  width: 120px;
+  width: 150px;
   font-size: 16px;  
-  padding: 5px;
+  padding: 10px;
+  border: 1px solid #62BD69;
+  outline: none;
 `;
 
 export const StyledButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 120px;
+  min-width: 150px;
   font-size: 16px;
   margin: 0px 8px;
-  padding: 5px;
+  padding: 10px;
+  background-color: #62BD69;
+  border: 1px solid #62BD69;
+  color: #fff;
+  cursor: pointer;
 `;
 
 export const ColumnContainer = styled.div`
@@ -39,5 +47,6 @@ export const ColumnContainer = styled.div`
   label {
     font-size: 12px;
     margin-left: 3px;
+    color: #5AAB61;
   }
 `;
