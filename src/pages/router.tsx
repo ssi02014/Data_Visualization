@@ -9,7 +9,7 @@ import Sort from './sort';
 const Router = () => {
   return (
     <Routes>
-      <Route path="/" element={<div>main</div>} />
+      <Route path="/" element={<Link to="/sort">sort</Link>} />
       <Route path="/sort" element={<Sort />} />
     </Routes>
   );
