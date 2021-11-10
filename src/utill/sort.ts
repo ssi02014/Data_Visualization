@@ -88,8 +88,6 @@ export function* quickSort(a: number[], setCurosor: (cursor: number) => void, l?
         setCurosor(a[x]);
         yield onSwap(a, x, y);
       }
-
-      setCurosor(a[x]);
       yield onQuickSwap(a, x, r, v);
 
       s[i++] = l;

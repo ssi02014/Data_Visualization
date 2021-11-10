@@ -1,11 +1,12 @@
-import React, { useMemo, useCallback } from "react";
-import { StyledColumn, StyledRow, Container } from "./style";
+import React, { useCallback } from "react";
+import { StyledColumn, StyledRow, ContentContainer } from "./style";
 
 interface Props {
   isComplete: boolean;
   sortValue: number[];
   cursor: number;
 }
+
 const Visualization = ({ isComplete, sortValue, cursor }: Props) => {
   const checkClassName = useCallback((i, value) => {
     if (cursor === value) {
@@ -31,14 +32,14 @@ const Visualization = ({ isComplete, sortValue, cursor }: Props) => {
   }, [sortValue, cursor, isComplete]);
 
   return (
-    <Container>
+    <ContentContainer>
       {sortValue &&
         sortValue.map((el, idx) => (
           <StyledRow key={idx}>
             {columns(el).reverse().map((el) => el)}
           </StyledRow>
         ))}
-    </Container>
+    </ContentContainer>
   );
 };
 

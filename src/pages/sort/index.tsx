@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback } from "react";
-import Header from "../../components/Header";
-import Visualization from "../../components/Visualization";
+import Header from "../../components/Sort/header";
+import Visualization from "../../components/Sort/visualization";
 import { createNumberList } from "../../utill/common";
 import {
   selectionSort,
@@ -39,21 +39,19 @@ const Sort = () => {
     setProgress(true);
 
     const interval = setInterval(() => {
-      const { value } = iter.next();
-
       if (cancelRef.current) {
         clearInterval(interval);
-      }
-
-      if (!value) {
-        alert("정렬이 모두 완료되었습니다.");
-        setProgress(false);
-        setCurosor(null);
-        setIsComplete(true);
-        clearInterval(interval);
       } else {
-        const item = [...value];
-        setSortValue(item);
+        const { value } = iter.next();
+        if (!value) {
+          setProgress(false);
+          setCurosor(null);
+          setIsComplete(true);
+          clearInterval(interval);
+        } else {
+          const item = [...value];
+          setSortValue(item);
+        }
       }
     }, intervalTime);
   }, [value]);
