@@ -86,7 +86,7 @@ const Sort = () => {
     <>
       <HeaderContainer>
         <Link to="/"><HomeButton>{"< Home"}</HomeButton></Link>
-        <h1>정렬 데이터 시각화</h1>
+        <h1>주요 정렬 알고리즘 시각화</h1>
       </HeaderContainer>
 
       <Form

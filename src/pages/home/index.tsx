@@ -10,13 +10,17 @@ const Container = styled.div`
 
   h1 {
     margin-bottom: 20px;
+
+    span {
+      font-size: 13px;
+    }
   }
 `;
 
 const Home = () => {
   return (
     <Container>
-      <h1>알고리즘 데이터 시각화</h1>
+      <h1>알고리즘 데이터 시각화 <span>(v1.0)</span></h1>
       <Link to="/sort">
         <StyledButton>정렬(Sort)</StyledButton>
       </Link>
