@@ -60,9 +60,9 @@ export function* insertionSort(array: number[], setCurosor: (cursor: number) => 
 }
 
 // non recursive
-export function* quickSort(a: number[], setCurosor: (cursor: number) => void, l?: number, r?: number) {
-  l = l || 0;
-  r = r || a.length - 1;
+export function* quickSort(array: number[], setCurosor: (cursor: number) => void) {
+  let l = 0;
+  let r = array.length - 1;
 
   let i = 2;
   let s = [l, r];
@@ -77,26 +77,28 @@ export function* quickSort(a: number[], setCurosor: (cursor: number) => void, l?
       y = r - 1;
 
       p = l;
-      v = a[p];
-      a[p] = a[r];
+      v = array[p];
+      array[p] = array[r];
 
       while (true) {
-        while (x <= y && a[x] !== undefined && a[x] < v) x++;
-        while (x <= y && a[y] !== undefined && a[y] >= v) y--;
+        while (x <= y && array[x] !== undefined && array[x] < v) x++;
+        while (x <= y && array[y] !== undefined && array[y] >= v) y--;
         if (x > y) break;
 
-        setCurosor(a[x]);
-        yield onSwap(a, x, y);
+        yield onSwap(array, x, y);
       }
-      yield onQuickSwap(a, x, r, v);
+      onQuickSwap(array, x, r, v);
 
       s[i++] = l;
       s[i++] = x - 1;
       s[i++] = x + 1;
       s[i++] = r;
+
+      yield array;
     }
   }
 }
+
 
 //non recursive
 export function* mergeSort(array: number[]) {
