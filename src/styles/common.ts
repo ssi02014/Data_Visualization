@@ -26,7 +26,7 @@ export const HeaderContainer = styled.div`
 export const HomeButton = styled.button`
   position: absolute;
   top: 50%;
-  left: -290px;
+  left: -240px;
   transform: translateY(-50%);
   outline: none;
   background-color: #fff;
