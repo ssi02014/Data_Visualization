@@ -1,6 +1,7 @@
 import React, { useState, useRef, useCallback } from "react";
-import Header from "../../components/Sort/header";
+import Form from "../../components/Sort/form";
 import Visualization from "../../components/Sort/visualization";
+import { Link } from "react-router-dom";
 import { createNumberList } from "../../utill/common";
 import {
   selectionSort,
@@ -9,6 +10,8 @@ import {
   quickSort,
   mergeSort,
 } from "../../utill/sort";
+import { HomeButton, HeaderContainer } from "../../styles/common";
+
 
 const Sort = () => {
   const [value, setValue] = useState([]);
@@ -81,8 +84,12 @@ const Sort = () => {
 
   return (
     <>
-      <h1>정렬 데이터 시각화</h1>
-      <Header
+      <HeaderContainer>
+        <Link to="/"><HomeButton>{"< Home"}</HomeButton></Link>
+        <h1>정렬 데이터 시각화</h1>
+      </HeaderContainer>
+
+      <Form
         length={length}
         intervalTime={intervalTime}
         isCancel={cancelRef.current}
