@@ -11,6 +11,13 @@ const onQuickSwap = (array: number[], x: number, y: number, v: number):number[] 
   return array
 }
 
+const onMergeSwap = (sorted: number[], buffer: number[]) => {
+  let temp = sorted;
+  sorted = buffer;
+  buffer = temp;
+  return [temp, sorted, buffer];
+}
+
 export function* selectionSort(array: number[], setCurosor: (cursor: number) => void) {
   let minIndex = 0;
 
@@ -52,14 +59,14 @@ export function* insertionSort(array: number[], setCurosor: (cursor: number) => 
   }
 }
 
+// non recursive
 export function* quickSort(a: number[], setCurosor: (cursor: number) => void, l?: number, r?: number) {
-  var i, s, p, v, x, y;
-
   l = l || 0;
   r = r || a.length - 1;
 
-  i = 2;
-  s = [l, r];
+  let i = 2;
+  let s = [l, r];
+  let [x, y, p, v] = [0, 0, 0, 0];
 
   while (i > 0) {
     r = s[--i];
@@ -90,5 +97,42 @@ export function* quickSort(a: number[], setCurosor: (cursor: number) => void, l?
       s[i++] = x + 1;
       s[i++] = r;
     }
+  }
+}
+
+//non recursive
+export function* mergeSort(array: number[]) {
+  const length: number = array.length;
+  let sorted:number[] = [...array];
+  let buffer: number[] = new Array(length);
+  let temp:number[] = [];
+
+  for (let size = 1; size < length; size *= 2) {
+    for (let leftStart = 0; leftStart < length; leftStart += 2 * size) {
+      let left: number = leftStart;
+      let right: number = Math.min(left + size, length);
+      let i: number = left;
+
+      const leftLimit: number = right;
+      const rightLimit: number = Math.min(right + size, length);
+
+      while (left < leftLimit && right < rightLimit) {
+        if (sorted[left] <= sorted[right]) {
+          buffer[i++] = sorted[left++];
+        } else {
+          buffer[i++] = sorted[right++];
+        }
+      }
+      while (left < leftLimit) {
+        buffer[i++] = sorted[left++];
+      }
+      while (right < rightLimit) {
+        buffer[i++] = sorted[right++];
+      }
+    }
+
+    [temp, sorted, buffer] = onMergeSwap(sorted, buffer);
+
+    yield sorted;
   }
 }

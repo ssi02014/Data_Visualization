@@ -7,6 +7,7 @@ import {
   bubbleSort,
   insertionSort,
   quickSort,
+  mergeSort,
 } from "./utill/sort";
 
 import "./App.css";
@@ -29,6 +30,7 @@ function App() {
     else if (sortType === "selection") return selectionSort(value, setCurosor);
     else if (sortType === "insertion") return insertionSort(value, setCurosor);
     else if (sortType === "quick") return quickSort(value, setCurosor);
+    else if (sortType === "merge") return mergeSort(value);
   }, [sortType, value]);
 
   const iterator = useCallback((e) => {
@@ -83,11 +85,6 @@ function App() {
 
   return (
     <div className={style.container}>
-      <Visualization
-        isComplete={isComplete}
-        sortValue={sortValue}
-        cursor={cursor}
-      />
       <Header
         length={length}
         intervalTime={intervalTime}
@@ -99,6 +96,11 @@ function App() {
         onCancel={onCancel}
         changeIntervalTime={(e) => setIntervalTime(+e.target.value)}
         changeLength={(e) => setLength(+e.target.value)}
+      />
+      <Visualization
+        isComplete={isComplete}
+        sortValue={sortValue}
+        cursor={cursor}
       />
     </div>
   );
