@@ -4,8 +4,8 @@ export const Container = styled.div`
 `;
 
 export const StyledColumn = styled.div`
-  width: 15px;
-  height: 15px;
+  width: 12px;
+  height: 12px;
 
   &.current {
     border: 1px solid #111;

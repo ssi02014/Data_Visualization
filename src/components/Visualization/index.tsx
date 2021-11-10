@@ -7,13 +7,25 @@ interface Props {
   cursor: number;
 }
 const Visualization = ({ isComplete, sortValue, cursor }: Props) => {
+  const checkClassName = useCallback((i, value) => {
+    if (cursor === value) {
+      if (i < cursor) return "current"
+      return "not-value"
+    } else {
+      if (i >= value) {
+        return "not-value";
+      } else {
+        if (isComplete) return "complete";
+        return "value";
+      }
+    }
+  }, [isComplete, cursor]);
+
   const columns = useCallback((value) => {
     const elements = sortValue.map((el, i) => {
-      if (cursor === value) {
-        return <StyledColumn key={i} className={i < cursor ? "current" : "not-value"} />
-      } else {
-        return <StyledColumn key={i} className={ i >= value ? "not-value" : isComplete ? "complete" : "value"} />
-      }
+      const className = checkClassName(i, value);
+      
+      return <StyledColumn key={i} className={className} />
     });
     return elements;
   }, [sortValue, cursor, isComplete]);

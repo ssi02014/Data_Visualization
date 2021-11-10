@@ -45,7 +45,7 @@ const Header = ({
       </ColumnContainer>
 
       <ColumnContainer>
-        <label htmlFor="interval-time">정렬 시간</label>
+        <label htmlFor="interval-time">정렬 시간 (ms)</label>
         <StyledInput
           type="text"
           id="interval-time"
@@ -55,16 +55,23 @@ const Header = ({
       </ColumnContainer>
 
       <ColumnContainer>
-        <label htmlFor="list-count">배열 개수</label>
+        <label htmlFor="list-count">배열 개수 (개)</label>
         <StyledInput type="text" id="list-count" value={length} onChange={changeLength} />
       </ColumnContainer>
 
       <StyledButton onClick={onInit}>배열 초기화</StyledButton>
       
       {progress ? (
-        <StyledButton onClick={onCancel}>정지</StyledButton>
+        <StyledButton 
+          style={{ backgroundColor: "gray", border: "1px solid gray" }} 
+          onClick={onCancel}
+        >
+            정지
+        </StyledButton>
       ) : (
-        <StyledButton onClick={iterator}>{isCancel ? "재시작" : "정렬"}</StyledButton>
+        <StyledButton onClick={iterator}>
+          {isCancel ? "재시작" : "정렬"}
+        </StyledButton>
       )}
     </HeaderContainer>
   );
