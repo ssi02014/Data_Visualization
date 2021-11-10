@@ -103,7 +103,7 @@ export function* quickSort(array: number[], setCurosor: (cursor: number) => void
 //non recursive
 export function* mergeSort(array: number[]) {
   const length: number = array.length;
-  let sorted:number[] = [...array];
+  let sorted:number[] = array;
   let buffer: number[] = new Array(length);
   let temp:number[] = [];
 

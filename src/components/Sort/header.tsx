@@ -12,6 +12,7 @@ interface Props {
   isCancel: boolean;
   intervalTime: number;
   progress: boolean;
+  isComplete: boolean;
   onSelect: (e: any) => void;
   changeIntervalTime: (e: any) => void;
   changeLength: (e: any) => void;
@@ -23,6 +24,7 @@ const Header = ({
   length,
   isCancel,
   intervalTime,
+  isComplete,
   progress,
   onSelect,
   changeIntervalTime,
@@ -60,19 +62,21 @@ const Header = ({
       </ColumnContainer>
 
       <StyledButton onClick={onInit}>배열 초기화</StyledButton>
-      
-      {progress ? (
-        <StyledButton 
-          style={{ backgroundColor: "gray", border: "1px solid gray" }} 
-          onClick={onCancel}
-        >
+        {progress ? (
+          <StyledButton 
+            style={{ backgroundColor: "gray", border: "1px solid gray" }} 
+            onClick={onCancel}
+          >
             정지
-        </StyledButton>
-      ) : (
-        <StyledButton onClick={iterator}>
-          {isCancel ? "재시작" : "정렬"}
-        </StyledButton>
-      )}
+          </StyledButton>
+        ) : (
+          <StyledButton onClick={(e) => {
+            if (!isComplete) iterator(e);
+            else alert("정렬이 완료되었습니다.");
+          }}>
+            {isCancel ? "재시작" : "정렬"}
+          </StyledButton>
+        )}
     </HeaderContainer>
   );
 };

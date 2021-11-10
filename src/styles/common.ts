@@ -9,4 +9,8 @@ export const StyledButton = styled.button`
   padding: 10px;
   font-size: 16px;
   cursor: pointer;
+
+  &:hover {
+    background-color: rgba(98, 189, 105, 0.1);
+  }
 `;

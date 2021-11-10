@@ -39,7 +39,7 @@ const Sort = () => {
     setProgress(true);
 
     const interval = setInterval(() => {
-      if (cancelRef.current) {
+      if (cancelRef.current || isComplete) {
         clearInterval(interval);
       } else {
         const { value } = iter.next();
@@ -54,7 +54,7 @@ const Sort = () => {
         }
       }
     }, intervalTime);
-  }, [value]);
+  }, [value, isComplete]);
 
   const onSelect = (e) => {
     setSortType(e.target.value);
@@ -87,6 +87,7 @@ const Sort = () => {
         intervalTime={intervalTime}
         isCancel={cancelRef.current}
         progress={progress}
+        isComplete={isComplete}
         onInit={onInit}
         onSelect={onSelect}
         iterator={iterator}
