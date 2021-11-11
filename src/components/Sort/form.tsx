@@ -13,6 +13,7 @@ interface Props {
   intervalTime: number;
   progress: boolean;
   isComplete: boolean;
+  onError: (message: string) => void;
   onSelect: (e: any) => void;
   changeIntervalTime: (e: any) => void;
   changeLength: (e: any) => void;
@@ -26,6 +27,7 @@ const Header = ({
   intervalTime,
   isComplete,
   progress,
+  onError,
   onSelect,
   changeIntervalTime,
   changeLength,
@@ -72,7 +74,7 @@ const Header = ({
         ) : (
           <StyledButton onClick={(e) => {
             if (!isComplete) iterator(e);
-            else alert("정렬이 완료되었습니다.");
+            else onError("정렬이 완료되었습니다.");
           }}>
             {isCancel ? "재시작" : "정렬"}
           </StyledButton>

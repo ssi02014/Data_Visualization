@@ -21,7 +21,6 @@ export const HeaderContainer = styled.div`
   align-items: flex-end;
   justify-content: center;
   padding: 30px;
-  margin-bottom: 30px;
 `;
 
 export const StyledSelect = styled.select`

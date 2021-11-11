@@ -10,8 +10,7 @@ import {
   quickSort,
   mergeSort,
 } from "../../utill/sort";
-import { HomeButton, HeaderContainer } from "../../styles/common";
-
+import { HomeButton, HeaderContainer, ErrorMsg } from "../../styles/common";
 
 const Sort = () => {
   const [value, setValue] = useState([]);
@@ -22,6 +21,7 @@ const Sort = () => {
   const [intervalTime, setIntervalTime] = useState(100);
   const [length, setLength] = useState(30);
   const [progress, setProgress] = useState(false);
+  const [error, setError] = useState("");
 
   const cancelRef = useRef(false);
 
@@ -40,6 +40,7 @@ const Sort = () => {
     cancelRef.current = false;
 
     setProgress(true);
+    setError("");
 
     const interval = setInterval(() => {
       if (cancelRef.current || isComplete) {
@@ -57,6 +58,7 @@ const Sort = () => {
         }
       }
     }, intervalTime);
+    
   }, [value, isComplete]);
 
   const onSelect = (e) => {
@@ -68,17 +70,37 @@ const Sort = () => {
     cancelRef.current = true;
   }, []);
 
-  const onInit = useCallback(() => {
-    const initList = createNumberList(length);
+  const validation = useCallback(() => {
+    if(length > 50) {
+      setError("기능성을 위해 배열 개수를 50개 이하로 입력해주시기 바랍니다.");
+      return false;
+    }
+    return true;
+  }, [length]);
 
-    if (progress) {
-      alert("정렬중에는 배열 초기화가 불가능합니다.");
+  const onError = useCallback((message) => {
+    setError(message);
+    setTimeout(() => {
+      setError("");
+    }, 3000);
+  }, []);
+
+  const onInit = useCallback(() => {
+    if(length > 50) {
+      onError("기능성을 위해 배열 개수를 50개 이하로 입력해주시기 바랍니다.");
     } else {
-      cancelRef.current = false;
-      setCurosor(null);
-      setIsComplete(false);
-      setValue(initList);
-      setSortValue(initList);
+      const initList = createNumberList(length);
+
+      if (progress) {
+        onError("정렬중에는 배열 초기화가 불가능합니다.");
+      } else {
+        cancelRef.current = false;
+        setError("")
+        setCurosor(null);
+        setIsComplete(false);
+        setValue(initList);
+        setSortValue(initList);
+      }
     }
   }, [length, progress]);
 
@@ -99,9 +121,13 @@ const Sort = () => {
         onSelect={onSelect}
         iterator={iterator}
         onCancel={onCancel}
+        onError={onError}
         changeIntervalTime={(e) => setIntervalTime(+e.target.value)}
         changeLength={(e) => setLength(+e.target.value)}
       />
+
+      <ErrorMsg className={error && "active"}>{error}</ErrorMsg>
+
       <Visualization
         isComplete={isComplete}
         sortValue={sortValue}

@@ -40,3 +40,16 @@ export const HomeButton = styled.button`
     color: #62BD69;
   }
 `;
+
+export const ErrorMsg = styled.p`
+  background-color: rgb(253, 237, 237);
+  color: rgb(95, 33, 32);
+  padding: 10px 30px;
+  margin-bottom: 30px;
+  opacity: 0;
+  min-height: 40px;
+
+  &.active {
+    opacity: 1;
+  }
+`;
