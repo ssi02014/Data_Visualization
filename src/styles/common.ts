@@ -48,6 +48,7 @@ export const ErrorMsg = styled.p`
   margin-bottom: 30px;
   opacity: 0;
   min-height: 40px;
+  transition: opacity 0.3s;
 
   &.active {
     opacity: 1;
